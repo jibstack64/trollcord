@@ -5,7 +5,8 @@
 
 A command-line utility for trolling on Discord.
 
-![screenshot-2023-01-02-02:24:50](https://user-images.githubusercontent.com/107510599/210191332-a20167e6-6182-43e7-9d07-1f888761ae48.png)
+![screenshot-2023-01-02-16:03:06](https://user-images.githubusercontent.com/107510599/210255805-04d2a2f0-683e-4bf3-a247-cb8a96f18100.png)
+
 
 > Using this tool is **likely to get you banned from Discord**. It could be considered a modified client or form of [self-botting](https://support.discord.com/hc/en-us/articles/115002192352-Automated-user-accounts-self-bots-) under Discord terms of service.
 >
