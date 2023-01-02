@@ -7,14 +7,18 @@
 
 A command-line utility for trolling on Discord.
 
-![screenshot-2023-01-02-16:03:06](https://user-images.githubusercontent.com/107510599/210255805-04d2a2f0-683e-4bf3-a247-cb8a96f18100.png)
+### Disclaimer
 
+Using this tool is **likely to get you banned from Discord**. It could be considered a modified client or form of [self-botting](https://support.discord.com/hc/en-us/articles/115002192352-Automated-user-accounts-self-bots-) under Discord terms of service.
 
-> Using this tool is **likely to get you banned from Discord**. It could be considered a modified client or form of [self-botting](https://support.discord.com/hc/en-us/articles/115002192352-Automated-user-accounts-self-bots-) under Discord terms of service.
->
-> This tool is designed to be *feature-rich*, not cloak your client from potential Discord suspicion.
->
-> I am **not** responsible for what you decide to do with this tool.
+This tool is designed to be *feature-rich*, not cloak your client from potential Discord suspicion.
+
+I am **not** responsible for what you decide to do with this tool.
+
+---
+
+> #### Preview:
+> ![screenshot-2023-01-02-22:11:08](https://user-images.githubusercontent.com/107510599/210281379-286192ea-455c-4cf6-940e-282abe5ea702.png)
 
 ### How-to
 
@@ -60,6 +64,8 @@ A command-line utility for trolling on Discord.
 ### Extra features
 - List servers
     - Simply lists all servers that you are in.
+
+---
 
 ### Style
 Some people decided to make some style changes to the program, so I decided, hey, why not give them a shout! [jumbledFox's UwU design](https://github.com/jumbledFox/twollcowd) - [horacegill's.. questionable design](https://github.com/horacegill/trollcord).
