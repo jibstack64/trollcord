@@ -30,7 +30,8 @@ var (
 )
 
 func title() string {
-	return "\n ▄▄█████▓ ██▀███   ▒█████   ██▓     ██▓     ▄████▄   ▒█████   ██▀███  ▓█████▄ \n ▓  ██▒ ▓▒▓██ ▒ ██▒▒██▒  ██▒▓██▒    ▓██▒    ▒██▀ ▀█  ▒██▒  ██▒▓██ ▒ ██▒▒██▀ ██▌\n ▒ ▓██░ ▒░▓██ ░▄█ ▒▒██░  ██▒▒██░    ▒██░    ▒▓█    ▄ ▒██░  ██▒▓██ ░▄█ ▒░██   █▌\n ░ ▓██▓ ░ ▒██▀▀█▄  ▒██   ██░▒██░    ▒██░    ▒▓▓▄ ▄██▒▒██   ██░▒██▀▀█▄  ░▓█▄   ▌\n   ▒██▒ ░ ░██▓ ▒██▒░ ████▓▒░░██████▒░██████▒▒ ▓███▀ ░░ ████▓▒░░██▓ ▒██▒░▒████▓ \n   ▒ ░░   ░ ▒▓ ░▒▓░░ ▒░▒░▒░ ░ ▒░▓  ░░ ▒░▓  ░░ ░▒ ▒  ░░ ▒░▒░▒░ ░ ▒▓ ░▒▓░ ▒▒▓  ▒ \n     ░      ░▒ ░ ▒░  ░ ▒ ▒░ ░ ░ ▒  ░░ ░ ▒  ░  ░  ▒     ░ ▒ ▒░   ░▒ ░ ▒░ ░ ▒  ▒ \n   ░        ░░   ░ ░ ░ ░ ▒    ░ ░     ░ ░   ░        ░ ░ ░ ▒    ░░   ░  ░ ░  ░ \n             ░         ░ ░      ░  ░    ░  ░░ ░          ░ ░     ░        ░    \n                                            ░                           ░      \n		    https://github.com/jibstack64/trollcord"
+	return "▄▄▄█████▓ █     █░ ▒█████   █     █░ █     █░ ▄████▄   ▒█████   █     █░▓█████▄ \n▓  ██▒ ▓▒▓█░ █ ░█░▒██▒  ██▒▓█░ █ ░█░▓█░ █ ░█░▒██▀ ▀█  ▒██▒  ██▒▓█░ █ ░█░▒██▀ ██▌\n▒ ▓██░ ▒░▒█░ █ ░█ ▒██░  ██▒▒█░ █ ░█ ▒█░ █ ░█ ▒▓█    ▄ ▒██░  ██▒▒█░ █ ░█ ░██   █▌\n░ ▓██▓ ░ ░█░ █ ░█ ▒██   ██░░█░ █ ░█ ░█░ █ ░█ ▒▓▓▄ ▄██▒▒██   ██░░█░ █ ░█ ░▓█▄   ▌\n  ▒██▒ ░ ░░██▒██▓ ░ ████▓▒░░░██▒██▓ ░░██▒██▓ ▒ ▓███▀ ░░ ████▓▒░░░██▒██▓ ░▒████▓ \n  ▒ ░░   ░ ▓░▒ ▒  ░ ▒░▒░▒░ ░ ▓░▒ ▒  ░ ▓░▒ ▒  ░ ░▒ ▒  ░░ ▒░▒░▒░ ░ ▓░▒ ▒   ▒▒▓  ▒ \n    ░      ▒ ░ ░    ░ ▒ ▒░   ▒ ░ ░    ▒ ░ ░    ░  ▒     ░ ▒ ▒░   ▒ ░ ░   ░ ▒  ▒ \n  ░        ░   ░  ░ ░ ░ ▒    ░   ░    ░   ░  ░        ░ ░ ░ ▒    ░   ░   ░ ░  ░ \n             ░        ░ ░      ░        ░    ░ ░          ░ ░      ░       ░    \n                                             ░                           ░      \n
+	//return "\n ▄▄█████▓ ██▀███   ▒█████   ██▓     ██▓     ▄████▄   ▒█████   ██▀███  ▓█████▄ \n ▓  ██▒ ▓▒▓██ ▒ ██▒▒██▒  ██▒▓██▒    ▓██▒    ▒██▀ ▀█  ▒██▒  ██▒▓██ ▒ ██▒▒██▀ ██▌\n ▒ ▓██░ ▒░▓██ ░▄█ ▒▒██░  ██▒▒██░    ▒██░    ▒▓█    ▄ ▒██░  ██▒▓██ ░▄█ ▒░██   █▌\n ░ ▓██▓ ░ ▒██▀▀█▄  ▒██   ██░▒██░    ▒██░    ▒▓▓▄ ▄██▒▒██   ██░▒██▀▀█▄  ░▓█▄   ▌\n   ▒██▒ ░ ░██▓ ▒██▒░ ████▓▒░░██████▒░██████▒▒ ▓███▀ ░░ ████▓▒░░██▓ ▒██▒░▒████▓ \n   ▒ ░░   ░ ▒▓ ░▒▓░░ ▒░▒░▒░ ░ ▒░▓  ░░ ▒░▓  ░░ ░▒ ▒  ░░ ▒░▒░▒░ ░ ▒▓ ░▒▓░ ▒▒▓  ▒ \n     ░      ░▒ ░ ▒░  ░ ▒ ▒░ ░ ░ ▒  ░░ ░ ▒  ░  ░  ▒     ░ ▒ ▒░   ░▒ ░ ▒░ ░ ▒  ▒ \n   ░        ░░   ░ ░ ░ ░ ▒    ░ ░     ░ ░   ░        ░ ░ ░ ▒    ░░   ░  ░ ░  ░ \n             ░         ░ ░      ░  ░    ░  ░░ ░          ░ ░     ░        ░    \n                                            ░                           ░      \n		    https://github.com/jibstack64/trollcord"
 }
 
 // prompts the user with 'prompt' and returns their response.
@@ -103,17 +104,17 @@ func loading(text string, fn func(finished *bool, err *error)) error {
 // returns a boolean, yes being true and no being false.
 func yesOrNo(prompt string) bool {
 	inputString := fmt.Sprintf("%s%s%s%s%s",
-		BackColour.Sprint("("), SuccessColour.Sprint("yes"), BackColour.Sprint("/"),
-		ErrorColour.Sprint("no"), BackColour.Sprint(")"))
+		BackColour.Sprint("("), SuccessColour.Sprint("yaa!!"), BackColour.Sprint("/"),
+		ErrorColour.Sprint("nuuh!!"), BackColour.Sprint(")"))
 	PromptColour.Printf("\n%s %s\n", prompt, inputString)
 	for {
 		BackColour.Print("> ")
 		var input string
 		fmt.Scanln(&input)
 		input = strings.ToLower(input) // lower
-		if input == "yes" {
+		if input == "yaa!!" {
 			return true
-		} else if input == "no" {
+		} else if input == "nuuh!!" {
 			return false
 		} else {
 			continue
@@ -178,7 +179,7 @@ func fromSelection(prompt string, options []string) int {
 		index, err := strconv.Atoi(input)
 		index -= 1
 		if err != nil {
-			ErrorColour.Printf("'%s' is not an integer.\n", input)
+			ErrorColour.Printf("'%s' iws nowt an integew.\n", input)
 			continue
 		}
 		for p, v := range options {
@@ -187,7 +188,7 @@ func fromSelection(prompt string, options []string) int {
 			}
 		}
 		if input != "" {
-			ErrorColour.Printf("%s is not a valid option.\n", input)
+			ErrorColour.Printf("%s iws nowt a vawid option.\n", input)
 		}
 	}
 }
