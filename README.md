@@ -3,6 +3,8 @@
 ![GitHub](https://img.shields.io/github/license/jibstack64/trollcord)
 ![GitHub all releases](https://img.shields.io/github/downloads/jibstack64/trollcord/total)
 
+## UNDER HEAVY DEVELOPMENT
+
 A command-line utility for trolling on Discord.
 
 > Using this tool is **likely to get you banned from Discord**. It could be considered a modified client or form of [self-botting](https://support.discord.com/hc/en-us/articles/115002192352-Automated-user-accounts-self-bots-) under Discord terms of service.
