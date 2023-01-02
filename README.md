@@ -3,8 +3,6 @@
 ![GitHub](https://img.shields.io/github/license/jibstack64/trollcord)
 ![GitHub all releases](https://img.shields.io/github/downloads/jibstack64/trollcord/total)
 
-## UNDER HEAVY DEVELOPMENT
-
 A command-line utility for trolling on Discord.
 
 ![screenshot-2023-01-02-02:24:50](https://user-images.githubusercontent.com/107510599/210191332-a20167e6-6182-43e7-9d07-1f888761ae48.png)
@@ -18,19 +16,18 @@ A command-line utility for trolling on Discord.
 ### How-to
 
 - #### **Windows (10+)**
-    - Download the `trollcord-win32.exe` executable from the [Releases](https://github.com/jibstack64/trollcord/releases) page.
+    - Download the `trollcord.exe` executable from the [Releases](https://github.com/jibstack64/trollcord/releases) page.
     - Use the File Explorer to navigate to where you downloaded the executable.
     - Hold shift and right click anywhere in the explorer, as long as it is not over a file.
     - Click on the `Open Command Prompt` button on the dropdown.
-    - Type `./trollcord-win32.exe` and press enter - you should now be in the `trollcord` interface.
+    - Type `./trollcord.exe` and press enter - you should now be in the `trollcord` interface.
 - #### **Linux**
-    - Download the `trollcord-linux` executable from the [Releases](https://github.com/jibstack64/trollcord/releases) page.
+    - Download the `trollcord` executable from the [Releases](https://github.com/jibstack64/trollcord/releases) page.
     - Navigate to where you downloaded it; e.g. `cd Downloads`.
-    - Type `./trollcord-linux` and press enter.
+    - Type `./trollcord` and press enter.
     - Boom! If you wish, you may add it to your `~/.local/bin` folder for convenience.
 - #### **Mac**
   - There are currently **no builds** for Macintosh devices.
-
 
 ### Features
 1. Mass pinger
@@ -39,28 +36,20 @@ A command-line utility for trolling on Discord.
     - Input *either* a list of channel IDs split by `,` (e.g. `12345678,958928391,389123123`) OR a server ID.
     - A message will be formed containing a ping to every single role in the server - this message will be spammed in the provided channels / all channels in the provided server, pinging everyone regardless of `@everyone` permissions.
     - Once all parameters are specified, the pinging will begin.
-  
-    - *Example:*
 
 2. Webhook spamming
     - Webhook spamming is often regarded as one of the most annoying forms of attacks.
     - To initiate a webhook spam, select the `webhook spammer` option and place your webhook url in the input; you will be asked to provide a username and icon URL for the webhook user.
     - Prepare for chaos.
-  
-    - *Example:*
 
 3. Text channel spamming
     - Similarly to webhook spamming, text channel spamming is extremely fast. Many servers have bots that auto-ban spammers; for this reason, I suggest webhook spamming (it required webhook perms, but often owners are silly and leave the permission on for all users).
     - To start a text channel spam, simply select the `text channel spammer` option. Input the channel's Discord ID and message content, and bobs your uncle.
-  
-    - *Example:*
-  
+
 4. Server destruction [**BOT-ONLY**]
     - This feature is only available for bot accounts - this is due to restrictions on user accounts fetching all users within a server (as you can imagine, DM bots would be more common if that wasn't the case).
     - `trollcord` offers a variety of options for destroying servers. These include: deleting roles, channels and banning users.
     - To setup a server destruction, select the `server destroyer` option, and provide the server's [Discord ID](https://www.remote.tools/remote-work/how-to-find-discord-id).
     - You will be asked to blacklist said roles, channels and users by their Discord IDs. Blacklisted users will not be banned, blacklisted channels will not be removed, etcetera.
     - Once an ID and blacklist (if any) is provided, the server destruction will begin.
-  
-    - *Example:*
 

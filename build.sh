@@ -1,0 +1,1 @@
+go build trollcord.go tui.go
