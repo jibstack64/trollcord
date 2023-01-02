@@ -27,9 +27,9 @@ var (
 )
 
 func getChannelsOrGuild(mainGuildId *string, channels *[]*discordgo.Channel, restart *bool) error {
-	msg := "you must provide channel id(s) / a server id."
-	channelStrings := strings.Split(getInput("channel id(s) (seperate with ',') OR server id:", true, &msg), ",")
-	err := loading("confirming channel(s) or guild...", func(finished *bool, err *error) {
+	msg := "uwu must pwovide channew id(s) / a sewvew id."
+	channelStrings := strings.Split(getInput("channew id(s) (sepewate with ',') ow sewvew id:", true, &msg), ",")
+	err := loading("confiwming channew(s) ow guiwd...", func(finished *bool, err *error) {
 		if len(channelStrings) == 1 {
 			if guild, e := discord.Guild(channelStrings[0]); e != nil {
 				if channel, e := discord.Channel(channelStrings[0]); e != nil {
@@ -72,7 +72,7 @@ func getChannelsOrGuild(mainGuildId *string, channels *[]*discordgo.Channel, res
 		*finished = true
 	})
 	if *restart {
-		errorPr("\nall channels must be in the same server; restarting.")
+		errorPr("\naww channews must be in the same sewvew; westawting.")
 	}
 	return err
 }
@@ -99,17 +99,17 @@ func massSend(content string, channels []*discordgo.Channel, count int, pretty f
 	}
 
 	if tracker == 0 {
-		errorPr("sent no messages - missing perms or channel(s) are voice?")
+		errorPr("sent no messages - missing pewms ow channew(s) awe voice?")
 	}
 
 	return nil
 }
 
 func getContent(content *string, restart *bool) {
-	msg := "you must provide a content value."
+	msg := "uwu must pwovide a content vawue."
 	ct := getInput("message content:", true, &msg)
 	if len(ct) > 2000 {
-		errorPr("content length cannot be above 2000; restarting.")
+		errorPr("content wength cannot be above 2000; westawting.")
 		*restart = true
 	} else {
 		*content = ct
@@ -127,18 +127,18 @@ func massPing() error {
 	if restart {
 		return massPing()
 	}
-	msg := "you must provide a count."
-	countString := getInput("how many messages should be spammed (in each channel)?", true, &msg)
+	msg := "uwu must pwovide a count."
+	countString := getInput("how many messages shouwd be spammed (in each channew)?", true, &msg)
 	count, err := strconv.Atoi(countString)
 	if err != nil {
-		errorPr(fmt.Sprintf("'%s' is not an integer; restarting.", countString))
+		errorPr(fmt.Sprintf("'%s' iws nowt an integew; westawting.", countString))
 		return massPing()
 	} else if count <= 0 {
-		errorPr("count cannot be/be below 0; restarting.")
+		errorPr("count cannot be/be bewow 0; westawting.")
 		return massPing()
 	}
 	pingString := ""
-	err = loading("generating mass ping...", func(finished *bool, err *error) {
+	err = loading("genewating mass ping...", func(finished *bool, err *error) {
 		guildRoles, e := discord.GuildRoles(mainGuildId)
 		*err = e
 		for _, gR := range guildRoles {
@@ -155,22 +155,22 @@ func massPing() error {
 
 	return massSend(pingString, channels, count, func(tracker, count int) {
 		if tracker%2 == 0 {
-			SuccessColour.Printf("✨ sent %d messages...\n", tracker)
+			SuccessColour.Printf("OwO sent %d messages...\n", tracker)
 		} else {
-			SuccessColour.Printf("🎉 sent %d messages...\n", tracker)
+			SuccessColour.Printf("UwU sent %d messages...\n", tracker)
 		}
 	})
 }
 
 func webhookSpam() error {
-	webhookString := getInput("enter a webhook url:", true, nil)
+	webhookString := getInput("entew a webhook uww:", true, nil)
 	webhookUrl, err := url.Parse(webhookString)
 	if err != nil {
-		errorPr("invalid url; restarting.")
+		errorPr("invawid uww; westawting.")
 		return webhookSpam()
 	}
 	restart := false
-	err = loading("confirming webhook validity...", func(finished *bool, err *error) {
+	err = loading("confiwming webhook vawidity...", func(finished *bool, err *error) {
 		_, e := http.Get(webhookUrl.String())
 		if e != nil {
 			restart = true
@@ -179,7 +179,7 @@ func webhookSpam() error {
 		*finished = true
 	})
 	if restart {
-		errorPr("\nfailed to fetch data from webhook; restarting.")
+		errorPr("\nfaiwed tuwu fetch data fwom webhook; westawting.")
 		return webhookSpam()
 	}
 	if err != nil {
@@ -192,8 +192,8 @@ func webhookSpam() error {
 		return webhookSpam()
 	}
 
-	username := getInput("username for the webhook user:", false, nil)
-	iconUrl := getInput("icon (url) for the webhook user:", false, nil)
+	username := getInput("usewname fow the webhook usew:", false, nil)
+	iconUrl := getInput("icon (uww) fow the webhook usew:", false, nil)
 
 	faces := []string{
 		"🎆",
@@ -222,7 +222,7 @@ func webhookSpam() error {
 		if cnt > 0 {
 			clearLine(1)
 		}
-		SuccessColour.Printf("%s spamming... (ctrl+c to stop)\n", faces[face])
+		SuccessColour.Printf("%s spamming... (ctww+c tuwu stowp)\n", faces[face])
 		face++
 		if face == len(faces) {
 			face = 0
@@ -250,16 +250,16 @@ func textChannelSpam() error {
 	}
 
 	faces := []string{
-		"😤",
-		"😠",
-		"😖",
-		"😡",
-		"👿",
+		">:| >",
+		">:( >",
+		">:S >",
+		">:P >",
+		">:3 >",
 	}
 	face := 0
 
 	return massSend(content, channels, 10000, func(tracker, count int) {
-		SuccessColour.Printf("%s spamming... (ctrl+c to stop)\n", faces[face])
+		SuccessColour.Printf("%s spamming... (ctww+c tuwu stowp)\n", faces[face])
 		face++
 		if face == len(faces) {
 			face = 0
@@ -269,21 +269,21 @@ func textChannelSpam() error {
 
 func serverDestroy() error {
 	if !isBot {
-		errorPr("how did we get here?")
+		errorPr("how did we get hewe?")
 	}
 
-	msg := "you must provide a server id."
-	guild, err := discord.Guild(getInput("server id:", true, &msg))
+	msg := "uwu must pwovide a sewvew id."
+	guild, err := discord.Guild(getInput("sewvew id:", true, &msg))
 	if err != nil {
 		//print(err.Error())
-		errorPr("invalid server id; restarting.")
+		errorPr("invawid sewvew id; westawting.")
 		return serverDestroy()
 	}
 
 	var roles []*discordgo.Role
 	var channels []*discordgo.Channel
 	var members []*discordgo.Member
-	err = loading("fetching server data...", func(finished *bool, err *error) {
+	err = loading("fetching sewvew data...", func(finished *bool, err *error) {
 		roles, _ = discord.GuildRoles(guild.ID)
 		channels, _ = discord.GuildChannels(guild.ID)
 		ms, e := discord.GuildMembers(guild.ID, "", 1000)
@@ -301,7 +301,7 @@ func serverDestroy() error {
 
 	// all roles
 	missingRolePerms := false
-	err = progressBar("deleting all roles...", func(length, done *int, err *error) {
+	err = progressBar("deweting aww wowes...", func(length, done *int, err *error) {
 		*length = len(roles)
 		*done = 0
 		for r, role := range roles {
@@ -326,7 +326,7 @@ func serverDestroy() error {
 
 	// all channels
 	missingChannelPerms := false
-	err = progressBar("deleting all channels...", func(length, done *int, err *error) {
+	err = progressBar("deweting aww channews...", func(length, done *int, err *error) {
 		*length = len(channels)
 		*done = 0
 		for c, channel := range channels {
@@ -349,7 +349,7 @@ func serverDestroy() error {
 
 	// all members
 	missingKickPerms := false
-	err = progressBar("banning/kicking all members...", func(length, done *int, err *error) {
+	err = progressBar("banning/kicking aww membews...", func(length, done *int, err *error) {
 		*length = len(members)
 		*done = 0
 		for m, member := range members {
@@ -372,13 +372,13 @@ func serverDestroy() error {
 	}
 
 	if missingRolePerms {
-		errorPr("\nnot all roles were removed due to missing perms.")
+		errorPr("\nnowt aww wowes wewe wemoved due tuwu missing pewms.")
 	}
 	if missingChannelPerms {
-		errorPr("\nnot all channels were removed due to missing perms.")
+		errorPr("\nnowt aww channews wewe wemoved due tuwu missing pewms.")
 	}
 	if missingKickPerms {
-		errorPr("\nnot all members were kicked/banned due to missing perms.")
+		errorPr("\nnowt aww membews wewe kicked/banned due tuwu missing pewms.")
 	}
 
 	return nil
@@ -387,12 +387,12 @@ func serverDestroy() error {
 func pick() {
 	// all sections
 	options := []string{
-		"mass pinger", "webhook spammer", "text channel spammer", "server destroyer",
+		"mass pingew", "webhook spammew", "text channew spammew", "sewvew destwoyew",
 	}
 	if !isBot {
 		options[len(options)-1] = ""
 	}
-	section := fromSelection("which tool do you wish to use?", options)
+	section := fromSelection("which toow duwu uwu wish tuwu use, mastew? Q///Q", options)
 	var err error
 	switch section {
 	case 0:
@@ -405,9 +405,9 @@ func pick() {
 		err = serverDestroy()
 	}
 	if err != nil {
-		fatal("\nan error occured: '" + err.Error() + "'.\n")
+		fatal("\nIM SOWWY!!! An ewwow occuwed... Q//Q :'" + err.Error() + "'.\n")
 	} else {
-		message("\nfinished.")
+		message("\nDONE! :3.")
 		pick() // loop
 	}
 }
@@ -418,18 +418,18 @@ func main() {
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-c
-		message("\n\nexiting...\n")
+		message("\n\cwosing down...\n")
 		os.Exit(0)
 	}()
 	fmt.Println(color.GreenString(title())) // print title
 	// get token
-	token = getInput("enter your discord token:", true, nil)
-	isBot = yesOrNo("is it a bot token?")
+	token = getInput("entew youw discowd token pweease:", true, nil)
+	isBot = yesOrNo("cawn uwu has teh bot??")
 	if isBot {
 		token = "Bot " + token
 	}
 	if cord, err := discordgo.New(token); err != nil {
-		fatal("failed to initialise discord client.")
+		fatal("faiwed tuwu initiawise discowd cwient, sowwy!!")
 		return
 	} else {
 		discord = cord
@@ -439,16 +439,16 @@ func main() {
 			discord.UserAgent = USER_CLOAK
 		}
 		// loading slash
-		err := loading("connecting to discord...", func(finished *bool, err *error) {
+		err := loading("connecting tuwu discowd...", func(finished *bool, err *error) {
 			_, e := discord.User("@me")
 			*err = e
 			*finished = true
 		})
 		if err != nil {
-			fatal("\ninvalid token or failed connection.\n")
+			fatal("\ninvawid token ow faiwed connection Q///Q\n")
 			return
 		} else {
-			success("\nsuccessfully connected.")
+			success("\nsuccessfuwwy connected!")
 		}
 	}
 	// open looping picker
