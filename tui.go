@@ -30,7 +30,7 @@ var (
 )
 
 func title() string {
-	return "\n▄▄█████▓ ██▀███   ▒█████   ██▓     ██▓     ▄████▄   ▒█████   ██▀███  ▓█████▄ \n▓  ██▒ ▓▒▓██ ▒ ██▒▒██▒  ██▒▓██▒    ▓██▒    ▒██▀ ▀█  ▒██▒  ██▒▓██ ▒ ██▒▒██▀ ██▌\n▒ ▓██░ ▒░▓██ ░▄█ ▒▒██░  ██▒▒██░    ▒██░    ▒▓█    ▄ ▒██░  ██▒▓██ ░▄█ ▒░██   █▌\n░ ▓██▓ ░ ▒██▀▀█▄  ▒██   ██░▒██░    ▒██░    ▒▓▓▄ ▄██▒▒██   ██░▒██▀▀█▄  ░▓█▄   ▌\n  ▒██▒ ░ ░██▓ ▒██▒░ ████▓▒░░██████▒░██████▒▒ ▓███▀ ░░ ████▓▒░░██▓ ▒██▒░▒████▓ \n  ▒ ░░   ░ ▒▓ ░▒▓░░ ▒░▒░▒░ ░ ▒░▓  ░░ ▒░▓  ░░ ░▒ ▒  ░░ ▒░▒░▒░ ░ ▒▓ ░▒▓░ ▒▒▓  ▒ \n    ░      ░▒ ░ ▒░  ░ ▒ ▒░ ░ ░ ▒  ░░ ░ ▒  ░  ░  ▒     ░ ▒ ▒░   ░▒ ░ ▒░ ░ ▒  ▒ \n  ░        ░░   ░ ░ ░ ░ ▒    ░ ░     ░ ░   ░        ░ ░ ░ ▒    ░░   ░  ░ ░  ░ \n            ░         ░ ░      ░  ░    ░  ░░ ░          ░ ░     ░        ░    \n                                           ░                           ░      \n		   https://github.com/jibstack64/trollcord"
+	return "\n ▄▄█████▓ ██▀███   ▒█████   ██▓     ██▓     ▄████▄   ▒█████   ██▀███  ▓█████▄ \n ▓  ██▒ ▓▒▓██ ▒ ██▒▒██▒  ██▒▓██▒    ▓██▒    ▒██▀ ▀█  ▒██▒  ██▒▓██ ▒ ██▒▒██▀ ██▌\n ▒ ▓██░ ▒░▓██ ░▄█ ▒▒██░  ██▒▒██░    ▒██░    ▒▓█    ▄ ▒██░  ██▒▓██ ░▄█ ▒░██   █▌\n ░ ▓██▓ ░ ▒██▀▀█▄  ▒██   ██░▒██░    ▒██░    ▒▓▓▄ ▄██▒▒██   ██░▒██▀▀█▄  ░▓█▄   ▌\n   ▒██▒ ░ ░██▓ ▒██▒░ ████▓▒░░██████▒░██████▒▒ ▓███▀ ░░ ████▓▒░░██▓ ▒██▒░▒████▓ \n   ▒ ░░   ░ ▒▓ ░▒▓░░ ▒░▒░▒░ ░ ▒░▓  ░░ ▒░▓  ░░ ░▒ ▒  ░░ ▒░▒░▒░ ░ ▒▓ ░▒▓░ ▒▒▓  ▒ \n     ░      ░▒ ░ ▒░  ░ ▒ ▒░ ░ ░ ▒  ░░ ░ ▒  ░  ░  ▒     ░ ▒ ▒░   ░▒ ░ ▒░ ░ ▒  ▒ \n   ░        ░░   ░ ░ ░ ░ ▒    ░ ░     ░ ░   ░        ░ ░ ░ ▒    ░░   ░  ░ ░  ░ \n             ░         ░ ░      ░  ░    ░  ░░ ░          ░ ░     ░        ░    \n                                            ░                           ░      \n		    https://github.com/jibstack64/trollcord"
 }
 
 // prompts the user with 'prompt' and returns their response.
@@ -119,6 +119,45 @@ func yesOrNo(prompt string) bool {
 			continue
 		}
 	}
+}
+
+// creates a progress bar that is updated according to 'length' and 'done'.
+func progressBar(prompt string, fn func(length *int, done *int, err *error)) error {
+	fmt.Printf("\n%s\n", MessageColour.Sprint(prompt))
+	progress := "[%s]"
+	check := "#"
+	back := "~"
+	// track progress
+	var length int
+	var done int
+	var err error
+	go fn(&length, &done, &err)
+	for {
+		var checks string
+		donevl := 0
+		if done > 0 {
+			donevl = done / length * 20
+		}
+		for i := 0; i < donevl; i++ {
+			checks += check
+		}
+		for i := 0; i < 20-donevl; i++ {
+			checks += back
+		}
+		fmt.Printf("%s\n", fmt.Sprintf(progress, checks))
+		time.Sleep(time.Second / 4)
+		clearLine(1) // clear line
+		if done <= length || err != nil {
+			break
+		}
+	}
+	// cool!
+	if err != nil {
+		fmt.Printf("[%s]\n", ErrorColour.Sprint("~~~~~~~~~"+ERROR+"~~~~~~~~~"))
+	} else {
+		fmt.Printf("[%s]\n", SuccessColour.Sprint("~~~~~~~~~"+SUCCESS+"~~~~~~~~~"))
+	}
+	return err
 }
 
 // prompts the user with the given 'prompt' string.
