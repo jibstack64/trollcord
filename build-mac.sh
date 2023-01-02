@@ -1,0 +1,1 @@
+env GOOS=darwin GOARCH=amd64 go build -o trollcord-mac trollcord.go tui.go

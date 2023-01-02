@@ -24,11 +24,12 @@ A command-line utility for trolling on Discord.
     - Type `./trollcord.exe` and press enter - you should now be in the `trollcord` interface.
 - #### **Linux**
     - Download the `trollcord` executable from the [Releases](https://github.com/jibstack64/trollcord/releases) page.
+    - Open up a Terminal.
     - Navigate to where you downloaded it; e.g. `cd Downloads`.
     - Type `./trollcord` and press enter.
     - Boom! If you wish, you may add it to your `~/.local/bin` folder for convenience.
 - #### **Mac**
-  - There are currently **no builds** for Macintosh devices.
+    - The Mac instructions are identical to that of the Linux instructions. Just download the `trollcord-mac` executable instead of the `trollcord` one.
 
 ### Features
 1. Mass pinger
