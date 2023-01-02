@@ -2,6 +2,8 @@
 
 ![GitHub](https://img.shields.io/github/license/jibstack64/trollcord)
 ![GitHub all releases](https://img.shields.io/github/downloads/jibstack64/trollcord/total)
+![GitHub go.mod Go version](https://img.shields.io/github/go-mod/go-version/jibstack64/trollcord)
+![GitHub tag (latest by date)](https://img.shields.io/github/v/tag/jibstack64/trollcord)
 
 A command-line utility for trolling on Discord.
 
@@ -31,7 +33,7 @@ A command-line utility for trolling on Discord.
 - #### **Mac**
     - The Mac instructions are identical to that of the Linux instructions. Just download the `trollcord-mac` executable instead of the `trollcord` one.
 
-### Features
+### Core features
 1. Mass pinger
     - Mass pinging simply pings all roles in a server (as a cheeky alternative to `@everyone`).
     - Select the `mass pinger` option.
@@ -55,3 +57,9 @@ A command-line utility for trolling on Discord.
     - You will be asked to blacklist said roles, channels and users by their Discord IDs. Blacklisted users will not be banned, blacklisted channels will not be removed, etcetera.
     - Once an ID and blacklist (if any) is provided, the server destruction will begin.
 
+### Extra features
+- List servers
+    - Simply lists all servers that you are in.
+
+### Style
+Some people decided to make some style changes to the program, so I decided, hey, why not give them a shout! [jumbledFox's UwU design](https://github.com/jumbledFox/twollcowd) - [horacegill's.. questionable design](https://github.com/horacegill/trollcord).

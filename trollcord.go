@@ -231,6 +231,54 @@ func webhookSpam() error {
 	}
 }
 
+func listGuilds() error {
+	var guilds []*discordgo.UserGuild
+	err := loading("fetching servers...", func(finished *bool, err *error) {
+		gs, e := discord.UserGuilds(100, "", "")
+		if e != nil {
+			*err = e
+			*finished = true
+			return
+		} else {
+			if len(gs) == 0 {
+				*finished = true
+				return
+			}
+			me, e := discord.User("@me")
+			if e != nil {
+				*err = e
+				*finished = true
+				return
+			}
+			if me.PremiumType > 1 {
+				ng, e := discord.UserGuilds(100, "", gs[len(guilds)-1].ID)
+				if e != nil {
+					*err = e
+					*finished = true
+					return
+				} else {
+					gs = append(guilds, ng...)
+				}
+			}
+		}
+		guilds = gs
+		*finished = true
+	})
+	if err != nil {
+		return err
+	}
+	var out string
+	for _, guild := range guilds {
+		out += SuccessColour.Sprint(guild.Name) + " : " + BackColour.Sprint(guild.ID) + "\n"
+	}
+	if len(guilds) == 0 {
+		errorPr("\nno servers to list.")
+	} else {
+		fmt.Print("\n" + out)
+	}
+	return nil
+}
+
 func textChannelSpam() error {
 	var mainGuildId string
 	var channels []*discordgo.Channel
@@ -387,7 +435,7 @@ func serverDestroy() error {
 func pick() {
 	// all sections
 	options := []string{
-		"mass pinger", "webhook spammer", "text channel spammer", "server destroyer",
+		"list servers", "mass pinger", "webhook spammer", "text channel spammer", "server destroyer",
 	}
 	if !isBot {
 		options[len(options)-1] = ""
@@ -396,12 +444,14 @@ func pick() {
 	var err error
 	switch section {
 	case 0:
-		err = massPing()
+		err = listGuilds()
 	case 1:
-		err = webhookSpam()
+		err = massPing()
 	case 2:
-		err = textChannelSpam()
+		err = webhookSpam()
 	case 3:
+		err = textChannelSpam()
+	case 4:
 		err = serverDestroy()
 	}
 	if err != nil {
