@@ -418,7 +418,7 @@ func main() {
 	signal.Notify(c, os.Interrupt, syscall.SIGTERM)
 	go func() {
 		<-c
-		message("\n\cwosing down...\n")
+		message("\ncwosing down...\n")
 		os.Exit(0)
 	}()
 	fmt.Println(color.GreenString(title())) // print title
