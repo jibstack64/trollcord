@@ -54,7 +54,10 @@ I am **not** responsible for what you decide to do with this tool.
     - Similarly to webhook spamming, text channel spamming is extremely fast. Many servers have bots that auto-ban spammers; for this reason, I suggest webhook spamming (it required webhook perms, but often owners are silly and leave the permission on for all users).
     - To start a text channel spam, simply select the `text channel spammer` option. Input the channel's Discord ID and message content, and bobs your uncle.
 
-4. Server destruction [**BOT-ONLY**]
+4. DM channel spamming
+    - Identical to the text channel spammer, but for DMs; just selet the `dm spammer` option and give it a user id and the message to be sent.
+
+5. Server destruction [**BOT-ONLY**]
     - This feature is only available for bot accounts - this is due to restrictions on user accounts fetching all users within a server (as you can imagine, DM bots would be more common if that wasn't the case).
     - `trollcord` offers a variety of options for destroying servers. These include: deleting roles, channels and banning users.
     - To setup a server destruction, select the `server destroyer` option, and provide the server's [Discord ID](https://www.remote.tools/remote-work/how-to-find-discord-id).

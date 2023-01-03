@@ -82,7 +82,7 @@ func massSend(content string, channels []*discordgo.Channel, count int, pretty f
 	tracker := 1
 	for i := 0; i < count; i++ {
 		for c, channel := range channels {
-			if channel.Type != discordgo.ChannelTypeGuildText && channel.Type != discordgo.ChannelTypeGuildNews {
+			if channel.Type == discordgo.ChannelTypeGuildVoice {
 				continue
 			}
 			_, err := discord.ChannelMessageSend(channel.ID, content)
@@ -103,6 +103,38 @@ func massSend(content string, channels []*discordgo.Channel, count int, pretty f
 	}
 
 	return nil
+}
+
+func dmSpam() error {
+	msg := "you must provide a user id."
+	userId := getInput("user id:", true, &msg)
+	channel, err := discord.UserChannelCreate(userId)
+	if err != nil {
+		return err
+	}
+	var content string
+	var restart bool
+	getContent(&content, &restart)
+	if restart {
+		return dmSpam()
+	}
+
+	faces := []string{
+		"😤",
+		"😠",
+		"😖",
+		"😡",
+		"👿",
+	}
+	face := 0
+
+	return massSend(content, []*discordgo.Channel{channel}, 10000, func(tracker, count int) {
+		SuccessColour.Printf("%s spamming... (ctrl+c to stop)\n", faces[face])
+		face++
+		if face == len(faces) {
+			face = 0
+		}
+	})
 }
 
 func getContent(content *string, restart *bool) {
@@ -435,7 +467,8 @@ func serverDestroy() error {
 func pick() {
 	// all sections
 	options := []string{
-		"list servers", "mass pinger", "webhook spammer", "text channel spammer", "server destroyer",
+		"list servers", "mass pinger", "webhook spammer", "text channel spammer", "dm spammer",
+		"server destroyer",
 	}
 	if !isBot {
 		options[len(options)-1] = ""
@@ -452,6 +485,8 @@ func pick() {
 	case 3:
 		err = textChannelSpam()
 	case 4:
+		err = dmSpam()
+	case 5:
 		err = serverDestroy()
 	}
 	if err != nil {
