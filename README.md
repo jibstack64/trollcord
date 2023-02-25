@@ -61,8 +61,8 @@ I am **not** responsible for what you decide to do with this tool.
     - This feature is only available for bot accounts - this is due to restrictions on user accounts fetching all users within a server (as you can imagine, DM bots would be more common if that wasn't the case).
     - `trollcord` offers a variety of options for destroying servers. These include: deleting roles, channels and banning users.
     - To setup a server destruction, select the `server destroyer` option, and provide the server's [Discord ID](https://www.remote.tools/remote-work/how-to-find-discord-id).
-    - You will be asked to blacklist said roles, channels and users by their Discord IDs. Blacklisted users will not be banned, blacklisted channels will not be removed, etcetera.
-    - Once an ID and blacklist (if any) is provided, the server destruction will begin.
+    - ~~You will be asked to blacklist said roles, channels and users by their Discord IDs. Blacklisted users will not be banned, blacklisted channels will not be removed, etcetera.~~
+    - Once an ID ~~and blacklist (if any)~~ is provided, the server destruction will begin.
 
 ### Extra features
 - List servers
